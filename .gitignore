@@ -1,0 +1,10 @@
+__pycache__
+.pytest_cache
+venv
+requirements-dev.txt
+<<<<<<< HEAD
+test_code.py
+=======
+test_code.py
+/node_modules
+>>>>>>> Initial commit
