@@ -4,15 +4,8 @@ import calendar
 import datetime
 
 
-class HerokuApp:
-    app_url = "https://devsite-daftcode.herokuapp.com/"
-
 app = FastAPI()
 app.counter = 0
-
-# @app.get("/")
-# def root():
-#     return {"msg": "Hello World"}
 
 # ZAD 1.1
 
