@@ -1,13 +1,14 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response, status
 from pydantic import BaseModel, Field
 import calendar
-from datetime import date
+import datetime
 
 
 class HerokuApp:
     app_url = "http://127.0.0.1:8000"
 
 app = FastAPI()
+app.counter = 0
 
 # @app.get("/")
 # def root():
@@ -18,6 +19,7 @@ app = FastAPI()
 @app.get("/")
 def root():
     return {"start": "1970-01-01"}
+
 
 # ZAD 1.2
 
@@ -41,8 +43,8 @@ def options_method():
 def delete_method():
     return {"method": "DELETE"}
 
-# ZAD 1.3
 
+# ZAD 1.3
 
 @app.get("/day")
 async def check_correct(name: str, number: int):
@@ -57,11 +59,13 @@ async def check_correct(name: str, number: int):
 
 # ZAD 1.4
 
+events = []
+
 class Item(BaseModel):
-    id: int | None = 0
+    id: int | None = -1
     name: str  = Field(alias="event")
     date: str
-    date_added: str | None = date.today()
+    date_added: str | None = datetime.date.today()
 
 class Config:
     allow_population_by_field_name = True
@@ -69,16 +73,32 @@ class Config:
 
 @app.put("/events/")
 async def save_event(item: Item):
-    return item.dict()
+    item_json = item.dict()
+    item_json["id"] = app.counter
+    app.counter += 1
+    events.append(item_json)
+    return item_json
+
 
 # ZAD 1.5
 
-@app.put("/event/{date}")
-async def show_event(date: str):
+@app.get("/events/{date}")
+def show_event(date: str, response: Response):
 
-    return
+    try:
+        datetime.datetime.strptime(date, '%Y-%m-%d')
+    except ValueError:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response
+    else:
 
+        result = []
 
-# @app.get("/hello/{name}")
-# async def read_item(name: str):
-#     return f"Hello {name}"
+        for event in events:
+            if event["date"] == date:
+                result.append(event)
+        if len(result) == 0:
+                    response.status_code = status.HTTP_404_NOT_FOUND
+                    return response
+        else:
+            return result
