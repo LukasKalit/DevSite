@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field
 import calendar
 import datetime
 
-class HerokuApp:
-    app_url = "http://127.0.0.1:8000/"
+# class HerokuApp:
+#     app_url = "http://127.0.0.1:8000/"
 
 app = FastAPI()
 app.counter = 0
