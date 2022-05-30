@@ -2,6 +2,7 @@ __pycache__
 .pytest_cache
 venv
 requirements-dev.txt
+test.py
 <<<<<<< HEAD
 test_code.py
 =======
