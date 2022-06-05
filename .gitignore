@@ -3,9 +3,7 @@ __pycache__
 venv
 requirements-dev.txt
 test.py
-<<<<<<< HEAD
-test_code.py
-=======
+externals
+
 test_code.py
 /node_modules
->>>>>>> Initial commit
