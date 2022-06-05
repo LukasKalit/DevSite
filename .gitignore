@@ -3,7 +3,6 @@ __pycache__
 venv
 requirements-dev.txt
 test.py
-externals
 
 test_code.py
 /node_modules
