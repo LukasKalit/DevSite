@@ -8,7 +8,7 @@ import datetime
 
 from fastapi import FastAPI
 
-from views import router as northwind_api_router
+from .views import router as northwind_api_router
 
 app = FastAPI()
 

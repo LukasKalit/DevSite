@@ -1,2 +1,2 @@
 class HerokuApp:
-    app_url = "https://git.heroku.com/devsite-daftcode.git"
+    app_url = "http://127.0.0.1:8000/"
