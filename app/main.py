@@ -16,6 +16,10 @@ app.include_router(northwind_api_router, tags=["northwind"])
 
 app.counter = 0
 
+
+class HerokuApp:
+    app_url = "http://127.0.0.1:8000/"
+
 # ZAD 1.1
 
 @app.get("/")
