@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import PositiveInt
 from sqlalchemy.orm import Session
 from sqlalchemy import select
@@ -59,3 +59,51 @@ def read_product(supplier_id: PositiveInt, db: Session = Depends(get_db)):
         item.Category = schemas.Category(CategoryID=db_category.CategoryID, CategoryName=db_category.CategoryName)
 
     return result
+
+@router.post("/suppliers", status_code=201)
+def create_supplier(response: Response, supplier: schemas.AddSupplier, db: Session = Depends(get_db)):
+    # print(supplier)
+    data = supplier.dict()
+    # print(data)
+    all_suppliers = crud.get_suppliers(db)
+    lastID = -1
+    for i in all_suppliers:
+        if i.SupplierID > lastID:
+            lastID = i.SupplierID
+    lastID += 1
+
+    for i in all_suppliers:
+        if i.CompanyName == data["CompanyName"]:
+            raise HTTPException(status_code=400, detail="Duplicated supplier")
+
+    if supplier.CompanyName == "":
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return response
+    return crud.add_suppliers(db, item=supplier, SupplierID=lastID)
+    
+@router.put("/suppliers/{id}")
+def update_supplier(response:Response, supplier: schemas.AddSupplier, id: int, db: Session = Depends(get_db)):
+    flag = True
+    all_suppliers = crud.get_suppliers(db)
+    for i in all_suppliers:
+        if i.SupplierID == id:
+            flag = False
+    if flag:
+        raise HTTPException(status_code=404, detail="Supplier not found")
+    
+    
+    return crud.update_supplier(db, id, supplier)
+
+
+@router.delete("/suppliers/{id}", status_code=204)
+def update_supplier(response:Response, id: int, db: Session = Depends(get_db)):
+    flag = True
+    all_suppliers = crud.get_suppliers(db)
+    for i in all_suppliers:
+        if i.SupplierID == id:
+            flag = False
+    if flag:
+        raise HTTPException(status_code=404, detail="Supplier not found")
+    
+    
+    return crud.delete_supplier(db, id)

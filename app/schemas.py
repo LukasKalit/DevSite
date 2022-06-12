@@ -32,4 +32,20 @@ class ProductsRelated(BaseModel):
 
     class Config:
         orm_mode = True
-    
+
+class AddSupplier(BaseModel):
+    CompanyName: constr(max_length=40) | None = ""
+    ContactName: constr(max_length=40) | None = None
+    ContactTitle: constr(max_length=40) | None = None
+    Address: constr(max_length=40) | None = None
+    City: constr(max_length=40) | None = None
+    PostalCode: constr(max_length=40) | None = None
+    Country: constr(max_length=40) | None = None
+    Phone: constr(max_length=40) | None = None
+    Fax: constr(max_length=40) | None = None
+    HomePage: constr(max_length=40) | None = None
+
+
+    class Config:
+        orm_mode = True
+ 
