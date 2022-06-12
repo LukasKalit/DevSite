@@ -18,8 +18,11 @@ def get_suppliers(db: Session):
     return db.query(models.Supplier).all()
 
 def get_supplier(db: Session, supplier_id: int):
-    return (db.query(models.Supplier).filter(models.Supplier.SupplierID == supplier_id).first())
-
+    print(supplier_id)
+    data = db.query(models.Supplier).filter(models.Supplier.SupplierID == supplier_id).first()
+    print(type(data))
+    print(data)
+    return data
 
 
 

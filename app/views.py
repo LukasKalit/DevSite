@@ -72,9 +72,9 @@ def create_supplier(response: Response, supplier: schemas.AddSupplier, db: Sessi
             lastID = i.SupplierID
     lastID += 1
 
-    for i in all_suppliers:
-        if i.CompanyName == data["CompanyName"]:
-            raise HTTPException(status_code=400, detail="Duplicated supplier")
+    # for i in all_suppliers:
+    #     if i.CompanyName == data["CompanyName"]:
+    #         return crud.get_supplier(db, i.SupplierID)
 
     if supplier.CompanyName == "":
         response.status_code = status.HTTP_400_BAD_REQUEST
